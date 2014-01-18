@@ -4,7 +4,7 @@ Class(SDQ, 'Tile').inherits(Widget)({
         init : function(config){
             Widget.prototype.init.call(this, config);
             this.label = new SDQ.Label({
-                text : config.num
+                text : this.num
             });
         },
 

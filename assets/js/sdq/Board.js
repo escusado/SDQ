@@ -21,26 +21,54 @@ Class(SDQ, 'Board').inherits(Widget)({
             console.log('board');
             this.styleTag = new SDQ.StyleTag();
 
-            this.setupGrid(config.puzzle);
+            this.setupGrid();
         },
 
         setupGrid : function(){
-            var board = this,
-                separator = Math.sqrt(this.size);
+            var row, col, gridValues, grid,
+                board = this,
+                colOffset = 0,
+                rowOffset = 0,
+                colIterator = 0,
+                rowIterator = 0,
+                firstRow = this.puzzle.masked[0],
+                gridsize = Math.sqrt(firstRow.length);
 
-            //walk a (column-based) puzzle;
-            var tile;
-            this.puzzle.masked.forEach(function(row, y){
-                row.forEach(function(num, x){
-                    tile = new SDQ.Tile({
-                        x   : x,
-                        y   : y,
-                        num : num
+            //create mini grids
+            // +-+-+-+
+            // |1|2|3|
+            // +-+-+-+
+            // |4|5|6|
+            // +-+-+-+
+            // |7|8|9|
+            // +-+-+-+
+
+            //Create necesary grids
+            for(row = 0; row < gridsize; row++){
+                for(col = 0; col < gridsize; col++){
+                    gridValues = [];
+
+                    for(var i=0;i<gridsize;i++){
+                        var offsetCol = i+(gridsize*col);
+
+
+                    }
+
+                    // for(rowIterator=0;rowIterator<rowOffset*(row+1); rowIterator++){
+                    //     console.log('3');
+                    //     for(colIterator=0;colIterator<colOffset*(col+1); colIterator++){
+                    //         console.log('4');
+                    //         gridValues.push( this.puzzle.masked[rowIterator][colIterator] );
+                    //     }
+                    // }
+
+                    grid = new SDQ.Grid({
+                        values : gridValues
                     });
 
-                    board.appendChild(tile);
-                });
-            });
+                    this.appendChild(grid);
+                }
+            }
 
             this.setSize();
         },
@@ -71,8 +99,8 @@ Class(SDQ, 'Board').inherits(Widget)({
 
             this.styleTag.render(this.element);
 
-            this.children.forEach(function(tile){
-                tile.render(board.element);
+            this.children.forEach(function(child){
+                child.render(board.element);
             });
         }
     }
