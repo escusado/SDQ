@@ -1,0 +1,17 @@
+.wrapper {
+    width  : 768px;
+    height : 768px;
+}
+
+.tile {
+    float  : left;
+    background-color: #E0E0E0;
+}
+
+.last-right{
+    margin-right: 0;
+}
+
+.last-bottom{
+    margin-bottom: 0;
+}
