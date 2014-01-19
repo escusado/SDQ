@@ -3,27 +3,27 @@ Class(SDQ,'Grid').inherits(Widget)({
     prototype : {
         init : function(config){
             Widget.prototype.init.call(this, config);
-
-            this.setGrid();
         },
 
-        setGrid : function(){
-            var grid = this;
-
-            this.values.forEach(function(num){
-                var tile = new SDQ.Tile({
-                    num : num
-                });
-
-                grid.appendChild(tile);
+        addTile : function(x,y,number){
+            var tile = new SDQ.Tile({
+                x : x,
+                y : y,
+                number : number
             });
+
+            this.appendChild(tile);
+
+            return this;
         },
 
         render : function(element, beforeElement){
+            var grid = this;
+
             Widget.prototype.render.call(this, element, beforeElement);
 
             this.children.forEach(function(child){
-                child.render(board.element);
+                child.render(grid.element);
             });
         }
 

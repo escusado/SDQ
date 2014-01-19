@@ -3,15 +3,20 @@
     height : 768px;
 }
 
+.grid,
 .tile {
     float  : left;
     background-color: #E0E0E0;
 }
 
-.last-right{
+.grid{
+    width: 33%;
+}
+
+/*.last-right{
     margin-right: 0;
 }
 
 .last-bottom{
     margin-bottom: 0;
-}
+}*/

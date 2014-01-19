@@ -25,50 +25,45 @@ Class(SDQ, 'Board').inherits(Widget)({
         },
 
         setupGrid : function(){
-            var row, col, gridValues, grid,
+            var gridRow, gridX, gridY, i, j,
+
                 board = this,
-                colOffset = 0,
-                rowOffset = 0,
-                colIterator = 0,
-                rowIterator = 0,
-                firstRow = this.puzzle.masked[0],
-                gridsize = Math.sqrt(firstRow.length);
-
-            //create mini grids
-            // +-+-+-+
-            // |1|2|3|
-            // +-+-+-+
-            // |4|5|6|
-            // +-+-+-+
-            // |7|8|9|
-            // +-+-+-+
-
-            //Create necesary grids
-            for(row = 0; row < gridsize; row++){
-                for(col = 0; col < gridsize; col++){
-                    gridValues = [];
-
-                    for(var i=0;i<gridsize;i++){
-                        var offsetCol = i+(gridsize*col);
+                gridSize = Math.sqrt(this.puzzle.masked[0].length);
 
 
-                    }
+            //Create the quadrant grids
+            this.grids = [];
+            i = gridSize;
+            while(i--){
 
-                    // for(rowIterator=0;rowIterator<rowOffset*(row+1); rowIterator++){
-                    //     console.log('3');
-                    //     for(colIterator=0;colIterator<colOffset*(col+1); colIterator++){
-                    //         console.log('4');
-                    //         gridValues.push( this.puzzle.masked[rowIterator][colIterator] );
-                    //     }
-                    // }
+                gridRow = [];
+                j = gridSize;
+                while(j--){
 
-                    grid = new SDQ.Grid({
-                        values : gridValues
+                    var grid = new SDQ.Grid({
+                        name : 'grid-'+i+'-'+j
                     });
-
+                    gridRow.push(grid);
                     this.appendChild(grid);
                 }
+
+                this.grids.push(gridRow);
             }
+
+            //walk grid to fill quadrants
+            this.puzzle.masked.forEach(function(gridRow, y){
+
+                gridRow.forEach(function(num, x){
+
+                    gridY = Math.floor(y/gridSize);
+                    gridX = Math.floor(x/gridSize);
+
+                    //add number to correspondant grid quadrant
+                    board.grids[gridY][gridX].addTile(x, y, num);
+
+                });
+
+            });
 
             this.setSize();
         },
