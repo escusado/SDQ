@@ -3,6 +3,8 @@ Class(SDQ,'Grid').inherits(Widget)({
     prototype : {
         init : function(config){
             Widget.prototype.init.call(this, config);
+
+            this.borderToken = 1;
         },
 
         addTile : function(x,y,number){
@@ -14,6 +16,26 @@ Class(SDQ,'Grid').inherits(Widget)({
 
             this.appendChild(tile);
 
+            if(this.borderToken === this.size){
+                tile.setAsBorderRight();
+                this.borderToken = 0;
+            }
+            this.borderToken++;
+
+            if(this.children.length >= ((this.size*this.size)-this.size)){
+                tile.setAsBorderBottom();
+            }
+
+            return this;
+        },
+
+        setAsBorderRight : function(){
+            this.element.addClass('border-right');
+            return this;
+        },
+
+        setAsBorderBottom : function(){
+            this.element.addClass('border-bottom');
             return this;
         },
 

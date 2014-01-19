@@ -9,6 +9,16 @@ Class(SDQ, 'Tile').inherits(Widget)({
             });
         },
 
+        setAsBorderRight : function(){
+            this.element.addClass('border-right');
+            return this;
+        },
+
+        setAsBorderBottom : function(){
+            this.element.addClass('border-bottom');
+            return this;
+        },
+
         render : function(element, beforeElement){
             Widget.prototype.render.call(this, element, beforeElement);
 

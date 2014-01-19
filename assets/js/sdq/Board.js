@@ -25,13 +25,13 @@ Class(SDQ, 'Board').inherits(Widget)({
         },
 
         setupGrid : function(){
-            var gridRow, gridX, gridY, i, j,
+            var gridRow, gridX, gridY, i, j, grid,
 
                 board = this,
                 gridSize = Math.sqrt(this.puzzle.masked[0].length);
 
 
-            //Create the quadrant grids
+            //Create the quadrant grids 3x3
             this.grids = [];
             i = gridSize;
             while(i--){
@@ -40,13 +40,19 @@ Class(SDQ, 'Board').inherits(Widget)({
                 j = gridSize;
                 while(j--){
 
-                    var grid = new SDQ.Grid({
-                        name : 'grid-'+i+'-'+j
+                    grid = new SDQ.Grid({
+                        name : 'grid-'+i+'-'+j,
+                        size : gridSize
                     });
                     gridRow.push(grid);
                     this.appendChild(grid);
-                }
 
+                    if(i === 0){
+                        grid.setAsBorderBottom();
+                    }
+
+                }
+                grid.setAsBorderRight();
                 this.grids.push(gridRow);
             }
 
@@ -69,22 +75,47 @@ Class(SDQ, 'Board').inherits(Widget)({
         },
 
         setSize : function(){
-            var style = '  .tile {\
-                                width  :  {{width}}px;\
-                                height : {{height}}px;\
-                                margin-right : {{margin}}px;\
-                           }',
+            var gridSize, tileSize, margin,
+                style = '  .grid {\
+                                width : {{gwidth}}px;\
+                                height : {{gheight}}px;\
+                                margin-right : {{gmargin}}px;\
+                                margin-bottom : {{gmargin}}px;\
+                           }\
+                           .tile {\
+                                width : {{twidth}}px;\
+                                height : {{theight}}px;\
+                                margin-right : {{tmargin}}px;\
+                                margin-bottom : {{tmargin}}px;\
+                           }';
 
-                tileSize = Math.floor( this.size * 0.087 ),
-                margin   = Math.ceil( this.size * 0.02 );
+            gridSize = this.getGridMeasures(this.size);
+            tileSize = this.getGridMeasures(gridSize.tile);
 
-            style = style.replace('{{width}}', tileSize)
-                         .replace('{{height}}', tileSize)
-                         .replace('{{margin}}', margin);
+            style = style.replace( /{{twidth}}/g  , tileSize.tile)
+                         .replace( /{{theight}}/g , tileSize.tile)
+                         .replace( /{{tmargin}}/g , tileSize.margin)
+                         .replace( /{{gwidth}}/g  , gridSize.tile)
+                         .replace( /{{gheight}}/g , gridSize.tile)
+                         .replace( /{{gmargin}}/g , gridSize.margin);
 
             this.styleTag.set(style);
 
             return this;
+        },
+
+        getGridMeasures : function(gridSize){
+            var measures = {tile : 0, margin : 0},
+                ratio = {
+                    tile : 0.3,
+                    margin : 0.03
+                };
+
+            measures.tile = Math.floor(gridSize*ratio.tile);
+            // measures.margin = Math.floor(gridSize*ratio.margin);
+            measures.margin = (gridSize - (measures.tile*Math.sqrt(this.puzzle.masked[0].length)))/2;
+
+            return measures;
         },
 
         render : function(element, beforeElement){

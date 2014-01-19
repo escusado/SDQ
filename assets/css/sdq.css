@@ -1,16 +1,33 @@
+body{
+    background-image : url(../img/bg.jpg);
+}
+
 .wrapper {
     width  : 768px;
     height : 768px;
 }
 
-.grid,
 .tile {
+    width: 30%;
     float  : left;
-    background-color: #E0E0E0;
+
+    background-color: #FFF;
+    border-radius: 5px;
+}
+
+.tile.border-right,
+.grid.border-right{
+    margin-right: 0;
+}
+
+.tile.border-bottom,
+.grid.border-bottom{
+    margin-bottom: 0;
 }
 
 .grid{
     width: 33%;
+    float: left;
 }
 
 /*.last-right{
