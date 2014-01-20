@@ -27,6 +27,7 @@ Class(SDQ, 'Board').inherits(Widget)({
         setupGrid : function(){
             var gridRow, gridX, gridY, i, j, grid,
 
+                id = 0,
                 board = this,
                 gridSize = Math.sqrt(this.puzzle.masked[0].length);
 
@@ -65,8 +66,18 @@ Class(SDQ, 'Board').inherits(Widget)({
                     gridX = Math.floor(x/gridSize);
 
                     //add number to correspondant grid quadrant
-                    board.grids[gridY][gridX].addTile(x, y, num);
 
+                    var tile = new SDQ.Tile({
+                        id : id,
+                        x : x,
+                        y : y,
+                        number : num
+                    });
+
+                    board.grids[gridY][gridX].addTile(tile);
+                    board.user[y][x] = tile;
+
+                    id++;
                 });
 
             });
@@ -116,6 +127,41 @@ Class(SDQ, 'Board').inherits(Widget)({
             measures.margin = (gridSize - (measures.tile*Math.sqrt(this.puzzle.masked[0].length)))/2;
 
             return measures;
+        },
+
+        _activate : function(){
+            var c,    // a counter, set by the outer loop
+                tmp,  // for intermediate results
+                x,
+                col, row,
+                index = 0,
+                gridSize = this.puzzle.masked[0].length;    // the x-index into *arr* (*y* will be defined implicitly)
+
+            for (c = gridSize - 1; c > -gridSize; c--) {
+
+                tmp = gridSize - Math.abs(c) - 1;
+                x = tmp;
+
+                while (x >= 0) {
+
+                    if (c >= 0) {
+                        row = x;
+                        col = tmp - x;
+                    }
+                    else {
+                        col = gridSize - (tmp - x) - 1;
+                        row = (gridSize-1)-x;
+                    }
+
+                    this.user[col][row].animIntro(index*50);
+
+                    index++;
+
+                    x--;
+                }
+
+            }
+
         },
 
         render : function(element, beforeElement){

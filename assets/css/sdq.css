@@ -1,18 +1,30 @@
 body{
     background-image : url(../img/bg.jpg);
+    font-family: 'Futura', Arial, sans-serif;
 }
 
 .wrapper {
     width  : 768px;
     height : 768px;
+    margin : auto;
 }
 
 .tile {
     width: 30%;
     float  : left;
 
-    background-color: #FFF;
+    background-color: rgba(255,255,255,0.8);
     border-radius: 5px;
+    cursor: pointer;
+
+    opacity : 1;
+
+    transition : background-color 500ms linear, box-shadow 100ms linear, opacity 100ms ease-out;
+}
+
+.tile.inactive{
+    background-color: #ffffff;
+    opacity: 0;
 }
 
 .tile.border-right,
@@ -29,6 +41,58 @@ body{
     width: 33%;
     float: left;
 }
+
+.tile .label{
+    font-size: 51px;
+    margin-left: 19px;
+
+    color: #023781;
+    pointer-events: none;
+
+    transition : color 200ms linear;
+}
+
+.tile:hover{
+    background-color: rgba(255,255,255,1);
+    box-shadow: 0 0 0 2px rgba(255,255,255,.8)
+}
+
+.tile:hover .label{
+    color: #0345A6;
+}
+
+.mask.inactive{
+    border-radius: 50px;
+    background-color: red;
+    box-shadow: none;
+}
+
+.mask.inactive .label{
+    opacity: 0;
+}
+
+.mask{
+    pointer-events: none;
+    box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.9),inset -1px 0 0 0 rgba(255,255,255,0.05),inset 0 -1px 0 0 rgba(0,0,0,0.3),inset 1px 0 0 0 rgba(0,0,0,0.05), 0 0 0 2px rgba(0,0,0,.3);
+    transition : border-radius 500ms ease-out;
+}
+
+.mask .label{
+    opacity: 1;
+    text-shadow : 0 1px rgba(255,255,255,.9), 0 -1px rgba(0,0,0,.2);
+    transition : opacity 100ms ease-out;
+}
+
+.user-unsolved{
+    border-radius: 50px;
+    background-color: rgba(255,255,255,.1);
+}
+
+.user-unsolved .label{
+    color: transparent;
+}
+
+
 
 /*.last-right{
     margin-right: 0;

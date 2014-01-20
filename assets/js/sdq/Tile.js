@@ -1,12 +1,18 @@
 Class(SDQ, 'Tile').inherits(Widget)({
-    ELEMENT_CLASS :'tile',
     prototype : {
         init : function(config){
             Widget.prototype.init.call(this, config);
 
-            this.label = new SDQ.Label({
-                text : this.number
+            this.klass = ['tile'];
+
+            this.label = new SDQ.Label();
+
+            this.set({
+                type : 'mask',
+                number : this.number
             });
+
+            this.element.addClass('inactive');
         },
 
         setAsBorderRight : function(){
@@ -17,6 +23,24 @@ Class(SDQ, 'Tile').inherits(Widget)({
         setAsBorderBottom : function(){
             this.element.addClass('border-bottom');
             return this;
+        },
+
+        animIntro : function(time){
+            var tile = this;
+            setTimeout(function(){
+                tile.element.removeClass('inactive');
+            }, time);
+        },
+
+        set : function(value){
+            this.label.set(value.number);
+
+            value.type = value.number === 0 ? 'user' : value.type;
+            value.number = value.type === 'user' ? 'unsolved' : value.number;
+
+            this.klass[1] = value.type;
+            this.klass[2] = value.type+'-'+value.number;
+            this.element.attr('class', this.klass.join(' '));
         },
 
         render : function(element, beforeElement){

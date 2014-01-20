@@ -7,23 +7,17 @@ Class(SDQ,'Grid').inherits(Widget)({
             this.borderToken = 1;
         },
 
-        addTile : function(x,y,number){
-            var tile = new SDQ.Tile({
-                x : x,
-                y : y,
-                number : number
-            });
-
-            this.appendChild(tile);
+        addTile : function(tileInstance){
+            this.appendChild(tileInstance);
 
             if(this.borderToken === this.size){
-                tile.setAsBorderRight();
+                tileInstance.setAsBorderRight();
                 this.borderToken = 0;
             }
             this.borderToken++;
 
             if(this.children.length >= ((this.size*this.size)-this.size)){
-                tile.setAsBorderBottom();
+                tileInstance.setAsBorderBottom();
             }
 
             return this;
