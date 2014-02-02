@@ -21,6 +21,8 @@ Class(SDQ, 'Board').inherits(Widget)({
             console.log('board');
             this.styleTag = new SDQ.StyleTag();
 
+            this.input = new InputPanel();
+
             this.setupGrid();
         },
 
@@ -130,36 +132,13 @@ Class(SDQ, 'Board').inherits(Widget)({
         },
 
         _activate : function(){
-            var c,    // a counter, set by the outer loop
-                tmp,  // for intermediate results
-                x,
-                col, row,
-                index = 0,
-                gridSize = this.puzzle.masked[0].length;    // the x-index into *arr* (*y* will be defined implicitly)
+            var n = this.puzzle.masked[0].length;
 
-            for (c = gridSize - 1; c > -gridSize; c--) {
-
-                tmp = gridSize - Math.abs(c) - 1;
-                x = tmp;
-
-                while (x >= 0) {
-
-                    if (c >= 0) {
-                        row = x;
-                        col = tmp - x;
-                    }
-                    else {
-                        col = gridSize - (tmp - x) - 1;
-                        row = (gridSize-1)-x;
-                    }
-
-                    this.user[col][row].animIntro(index*50);
-
-                    index++;
-
-                    x--;
+            for (var slice = 0; slice < 2 * n - 1; ++slice) {
+                var z = slice < n ? 0 : slice - n + 1;
+                for (var j = z; j <= slice - z; ++j) {
+                    this.user[j][slice - j].animIntro(slice*50);
                 }
-
             }
 
         },
@@ -170,6 +149,7 @@ Class(SDQ, 'Board').inherits(Widget)({
             Widget.prototype.render.call(this, element, beforeElement);
 
             this.styleTag.render(this.element);
+            this.input.render(this.element);
 
             this.children.forEach(function(child){
                 child.render(board.element);

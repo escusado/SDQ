@@ -57,5 +57,6 @@ Class(SDQ, 'App').inherits(Widget)({
 $(document).ready(function(){
     window.sdq = new SDQ.App();
     window.sdq.render($('.wrapper'));
+    sdq.board.activate();
 });
 

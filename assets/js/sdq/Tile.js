@@ -13,6 +13,8 @@ Class(SDQ, 'Tile').inherits(Widget)({
             });
 
             this.element.addClass('inactive');
+
+            this.bindEvents();
         },
 
         setAsBorderRight : function(){
@@ -47,6 +49,20 @@ Class(SDQ, 'Tile').inherits(Widget)({
             Widget.prototype.render.call(this, element, beforeElement);
 
             this.label.render(this.element);
+        },
+
+        bindEvents : function(){
+            var tile = this;
+
+            this.element.on('mousedown', function(ev){
+                // tile.input.render(tile.element);
+                sdq.board.input.show(tile.element);
+            });
+
+            $('body').on('mouseup', function(ev){
+                // tile.input.element.remove();
+                sdq.board.input.hide();
+            });
         }
     }
 });
