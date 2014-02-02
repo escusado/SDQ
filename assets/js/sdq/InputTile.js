@@ -21,6 +21,7 @@ Class('InputTile').inherits(Widget)({
 
         set : function(label){
             this.label.set(label);
+            this.element.addClass('input-'+label);
         },
 
         render : function(element, beforeElement){

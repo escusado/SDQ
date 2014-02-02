@@ -17,10 +17,32 @@ Class('InputPanel').inherits(Widget)({
             }
         },
 
-        show : function(tileEl){
+        show : function(tileEl, layout){
             var position = tileEl.offset();
 
             this.setPosition(position);
+
+            switch(layout){
+                case 0:
+                case 1:
+                case 2:
+                    layout = 'left';
+                    break;
+                case 3:
+                case 4:
+                    layout = 'center-left';
+                    break;
+                case 5:
+                    layout = 'center-right';
+                    break;
+                case 6:
+                case 7:
+                case 8:
+                    layout = 'right';
+                    break;
+            }
+
+            this.setLayout(layout);
 
             this.element.show();
         },
@@ -31,6 +53,11 @@ Class('InputPanel').inherits(Widget)({
 
         setPosition : function(position){
             this.element.css(position);
+        },
+
+        setLayout : function(layout){
+            this.element.removeClass('left center-left center-right right');
+            this.element.addClass(layout);
         }
     }
 });

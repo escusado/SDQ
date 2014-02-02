@@ -56,7 +56,7 @@ Class(SDQ, 'Tile').inherits(Widget)({
 
             this.element.on('mousedown', function(ev){
                 // tile.input.render(tile.element);
-                sdq.board.input.show(tile.element);
+                sdq.board.input.show(tile.element, tile.x);
             });
 
             $('body').on('mouseup', function(ev){
